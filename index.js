@@ -2,13 +2,17 @@ import express from 'express'
 import mongoose from 'mongoose'
 import cors from 'cors'
 import morgan from 'morgan'
+import dotenv from 'dotenv'
 import userRoutes from './routes/users.js'
 
 const PORT = process.env.PORT || 5000
 
+// Environment variables
+dotenv.config()
+
 // MongoDB
 mongoose
-	.connect('mongodb://172.26.160.1:27017/')
+	.connect(process.env.MONGO_URI, { dbName: 'ecommerce' })
 	.then(() => {
 		console.log('MongoDB connected')
 	})
@@ -20,6 +24,7 @@ const app = express()
 
 // Middlewares
 app.use(cors()) // Cross-Origin Resource Sharing
+app.use(express.json())
 app.use(morgan(':method | Endpoint - :url | :date[web] | :response-time ms')) // Logging
 
 // Routes
