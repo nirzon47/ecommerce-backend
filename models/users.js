@@ -34,5 +34,10 @@ userSchema.pre('save', function () {
 	this.password = hash // Replace the password with the hash
 })
 
+// Middleware that checks if the password is correct
+userSchema.methods.isValidPassword = function (password) {
+	return bcrypt.compareSync(password, this.password)
+}
+
 // Export user model
 export const userModel = mongoose.model('users', userSchema)
