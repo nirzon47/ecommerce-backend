@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose'
+import { Schema, model } from 'mongoose'
 import bcrypt from 'bcrypt'
 
 // User schema
@@ -40,4 +40,4 @@ userSchema.methods.isValidPassword = function (password) {
 }
 
 // Export user model
-export const userModel = mongoose.model('users', userSchema)
+export const userModel = model('users', userSchema)
