@@ -13,7 +13,7 @@ const registration = async (req, res) => {
 		res.status(200).json({
 			success: true,
 			message: 'User registration successful',
-			id: '' + _id,
+			_id,
 		})
 	} catch (error) {
 		// Send an error response
