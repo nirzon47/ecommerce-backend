@@ -1,4 +1,5 @@
 import { userModel } from '../models/users.js'
+import jwt from 'jsonwebtoken'
 
 // Controller for user registration
 const registration = async (req, res) => {
@@ -40,11 +41,31 @@ const login = async (req, res) => {
 
 		// If the password is correct, send an success response
 		if (await user.isValidPassword(req.body.password)) {
+			// Create a payload for JWT
+			const payload = {
+				_id: user._id,
+				name: user.name,
+				email: user.email,
+				role: user.role,
+				expAt: Math.floor((Date.now() + 1000 * 60 * 60 * 24 * 15) / 1000),
+			}
+
+			// Create a JWT token
+			const token = jwt.sign(payload, process.env.JWT_SECRET)
+
+			// Adds the token to the user model
+			await userModel.findByIdAndUpdate(
+				user._id,
+				{ $push: { tokens: token } },
+				{ new: true }
+			)
+
 			// Send a success response
 			return res.status(200).json({
 				success: true,
 				message: 'Login successful',
 				id: '' + user._id,
+				token,
 			})
 		}
 

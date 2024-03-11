@@ -24,6 +24,10 @@ const userSchema = new Schema({
 		type: String,
 		required: true,
 	},
+	tokens: {
+		type: Array,
+		default: [],
+	},
 })
 
 // Middleware that hashes the password before saving
