@@ -11,6 +11,8 @@ router.post(
 	productsController.addProduct
 )
 
+router.get('/:pID', productsController.getProduct)
+
 router.post(
 	'/:pID/:action',
 	tokenVerification(['buyer']),
