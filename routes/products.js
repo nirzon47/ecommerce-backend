@@ -7,8 +7,14 @@ const router = Router()
 
 router.post(
 	'/',
-	[upload.single('productImage'), tokenVerification],
+	[upload.single('productImage'), tokenVerification(['admin', 'sellers'])],
 	productsController.addProduct
+)
+
+router.post(
+	'/:pID/:action',
+	tokenVerification(['buyer']),
+	productsController.likeDislikeProduct
 )
 
 export default router

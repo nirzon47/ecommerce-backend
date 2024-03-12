@@ -1,4 +1,4 @@
-import { Schema, model } from 'mongoose'
+import mongoose, { Schema, model } from 'mongoose'
 
 const productsSchema = new Schema({
 	name: {
@@ -28,6 +28,16 @@ const productsSchema = new Schema({
 	category: {
 		type: String,
 		required: true,
+	},
+	likes: {
+		type: [mongoose.Types.ObjectId],
+		default: [],
+		ref: 'users',
+	},
+	dislikes: {
+		type: [mongoose.Schema.Types.ObjectId],
+		default: [],
+		ref: 'users',
 	},
 })
 

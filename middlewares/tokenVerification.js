@@ -21,6 +21,7 @@ const tokenVerification = (role) => async (req, res, next) => {
 			throw new Error('Forbidden')
 		}
 
+		req.user = user
 		// If the token is valid, continues to the next middleware
 		next()
 	} catch (error) {
