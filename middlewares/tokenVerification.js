@@ -24,10 +24,10 @@ const tokenVerification = (role) => async (req, res, next) => {
 		req.user = user
 		// If the token is valid, continues to the next middleware
 		next()
-	} catch (error) {
+	} catch (err) {
 		return res.status(403).json({
 			success: false,
-			message: 'Forbidden',
+			message: err.message || 'Forbidden',
 		})
 	}
 }

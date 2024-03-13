@@ -93,7 +93,7 @@ const likeDislikeProduct = async (req, res) => {
 		// Upon failure, send an error response
 		res.status(500).json({
 			success: false,
-			message: 'Interaction failed',
+			message: error.message || 'Interaction failed',
 			error,
 		})
 	}
@@ -126,6 +126,56 @@ const getProduct = async (req, res) => {
 	}
 }
 
-const productsController = { addProduct, likeDislikeProduct, getProduct }
+// Controller for adding rating
+const addRating = async (req, res) => {
+	try {
+		const userID = req.user._id
+		const productID = req.params.pID
+		const rating = req.body.rating
+		const comment = req.body.comment
+
+		const ratingObject = {
+			userID,
+			rating,
+			comment,
+		}
+
+		const getRating = await ProductsModel.findById(productID, {
+			ratings: { $elemMatch: { userID } },
+		})
+
+		if (getRating) {
+			throw new Error('You have already rated this product')
+		}
+
+		const updatedProduct = await ProductsModel.findByIdAndUpdate(
+			productID,
+			{ $push: { ratings: ratingObject } },
+			{ new: true }
+		)
+
+		res.status(200).json({
+			success: true,
+			message: 'Rating added successfully',
+			product: updatedProduct,
+		})
+	} catch (err) {
+		// Upon failure, send an error response
+		res.status(500).json({
+			success: false,
+			message: err.message || 'Rating addition failed',
+		})
+	}
+}
+
+const editRating = async (req, res) => {}
+
+const productsController = {
+	addProduct,
+	likeDislikeProduct,
+	getProduct,
+	addRating,
+	editRating,
+}
 
 export default productsController

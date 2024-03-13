@@ -1,5 +1,23 @@
 import mongoose, { Schema, model } from 'mongoose'
 
+const ratingSchema = new Schema({
+	user: {
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'users',
+		required: true,
+	},
+	rating: {
+		type: Number,
+		required: true,
+		min: 1,
+		max: 5,
+	},
+	comment: {
+		type: String,
+		required: true,
+	},
+})
+
 const productsSchema = new Schema({
 	name: {
 		type: String,
@@ -39,6 +57,7 @@ const productsSchema = new Schema({
 		default: [],
 		ref: 'users',
 	},
+	ratings: [ratingSchema],
 })
 
 const ProductsModel = model('products', productsSchema)
