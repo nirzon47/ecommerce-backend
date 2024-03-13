@@ -24,7 +24,7 @@ router.post(
 
 // Edit Rating
 router.patch(
-	'/ratings/:pID/:ratingID',
+	'/ratings/:pID',
 	tokenVerification(['buyer']),
 	productsController.editRating
 )

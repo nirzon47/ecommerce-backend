@@ -129,35 +129,43 @@ const getProduct = async (req, res) => {
 // Controller for adding rating
 const addRating = async (req, res) => {
 	try {
+		// Gets the user ID from the middleware
 		const userID = req.user._id
+		// Gets the product ID from the dynamic route
 		const productID = req.params.pID
+		// Gets the rating and comment from the request body
 		const rating = req.body.rating
 		const comment = req.body.comment
 
+		// Creates a new rating object
 		const ratingObject = {
-			userID,
+			user: userID,
 			rating,
 			comment,
 		}
 
+		// Finds a rating that matches the userID
 		const getRating = await ProductsModel.findById(productID, {
-			ratings: { $elemMatch: { userID } },
+			ratings: { $elemMatch: { user: userID } },
 		})
 
-		if (getRating) {
+		// If the user has already rated the product, send an error response
+		if (getRating.ratings.length) {
 			throw new Error('You have already rated this product')
 		}
 
+		// Updates the product with the new rating
 		const updatedProduct = await ProductsModel.findByIdAndUpdate(
 			productID,
 			{ $push: { ratings: ratingObject } },
 			{ new: true }
 		)
 
+		// Upon success, send a success response
 		res.status(200).json({
 			success: true,
 			message: 'Rating added successfully',
-			product: updatedProduct,
+			product: updatedProduct.ratings,
 		})
 	} catch (err) {
 		// Upon failure, send an error response
@@ -168,7 +176,50 @@ const addRating = async (req, res) => {
 	}
 }
 
-const editRating = async (req, res) => {}
+const editRating = async (req, res) => {
+	try {
+		// Gets the user ID from the middleware
+		const userID = req.user._id
+		// Gets the product ID from the dynamic route
+		const productID = req.params.pID
+
+		// Gets the rating and comment from the request body
+		const rating = req.body.rating
+		const comment = req.body.comment
+
+		const getRating = await ProductsModel.findById(productID, {
+			ratings: { $elemMatch: { user: userID } },
+		})
+
+		if (!getRating.ratings.length) {
+			throw new Error('Rating not found')
+		}
+
+		const updatedProduct = await ProductsModel.findByIdAndUpdate(
+			productID,
+			{
+				$set: {
+					'ratings.$[elem].rating': rating,
+					'ratings.$[elem].comment': comment,
+				},
+			},
+			{ arrayFilters: [{ 'elem.user': userID }], new: true }
+		)
+
+		// Upon success, send a success response
+		res.status(200).json({
+			success: true,
+			message: 'Rating edited successfully',
+			product: updatedProduct.ratings,
+		})
+	} catch (err) {
+		// Upon failure, send an error response
+		res.status(500).json({
+			success: false,
+			message: err.message || 'Rating edit failed',
+		})
+	}
+}
 
 const productsController = {
 	addProduct,
