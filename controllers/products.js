@@ -144,13 +144,8 @@ const addRating = async (req, res) => {
 			comment,
 		}
 
-		// Gets the rating that has the user key same as the active user in userID
-		const getRating = await ProductsModel.findById(productID, {
-			ratings: { $elemMatch: { user: userID } },
-		})
-
 		// If the user has already rated the product, send an error response
-		if (getRating.ratings.length) {
+		if (req.ratingExists) {
 			throw new Error('You have already rated this product')
 		}
 
@@ -188,13 +183,8 @@ const editRating = async (req, res) => {
 		const rating = req.body.rating
 		const comment = req.body.comment
 
-		// Gets the rating that has the user key same as the active user in userID
-		const getRating = await ProductsModel.findById(productID, {
-			ratings: { $elemMatch: { user: userID } },
-		})
-
 		// If the user has not rated the product, send an error response
-		if (!getRating.ratings.length) {
+		if (!req.ratingExists) {
 			throw new Error('Rating not found')
 		}
 
@@ -227,12 +217,50 @@ const editRating = async (req, res) => {
 	}
 }
 
+// Controller for deleting ratings
+const deleteRating = async (req, res) => {
+	try {
+		// Gets the product ID from the dynamic route
+		const productID = req.params.pID
+		// Gets the user ID from the middleware
+		const userID = req.user._id
+
+		// If the user has not rated the product, send an error response
+		if (!req.ratingExists) {
+			throw new Error('Rating not found')
+		}
+
+		// Pulls the rating that has the user key same as the active user in userID
+		const updatedProduct = await ProductsModel.findByIdAndUpdate(
+			productID,
+			{
+				$pull: { ratings: { user: userID } },
+			},
+			{ new: true }
+		)
+
+		// Upon success, send a success response
+		res.status(200).json({
+			success: true,
+			message: 'Rating deleted successfully',
+			product: updatedProduct.ratings,
+		})
+	} catch (err) {
+		// Upon failure, send an error response
+		res.status(500).json({
+			success: false,
+			message: err.message || 'Rating deletion failed',
+		})
+	}
+}
+
 const productsController = {
 	addProduct,
 	likeDislikeProduct,
 	getProduct,
 	addRating,
 	editRating,
+	deleteRating,
 }
 
 export default productsController
