@@ -144,7 +144,7 @@ const addRating = async (req, res) => {
 			comment,
 		}
 
-		// Finds a rating that matches the userID
+		// Gets the rating that has the user key same as the active user in userID
 		const getRating = await ProductsModel.findById(productID, {
 			ratings: { $elemMatch: { user: userID } },
 		})
@@ -176,6 +176,7 @@ const addRating = async (req, res) => {
 	}
 }
 
+// Controller for editing rating
 const editRating = async (req, res) => {
 	try {
 		// Gets the user ID from the middleware
@@ -187,22 +188,27 @@ const editRating = async (req, res) => {
 		const rating = req.body.rating
 		const comment = req.body.comment
 
+		// Gets the rating that has the user key same as the active user in userID
 		const getRating = await ProductsModel.findById(productID, {
 			ratings: { $elemMatch: { user: userID } },
 		})
 
+		// If the user has not rated the product, send an error response
 		if (!getRating.ratings.length) {
 			throw new Error('Rating not found')
 		}
 
+		// Updates the product with the new rating
 		const updatedProduct = await ProductsModel.findByIdAndUpdate(
 			productID,
 			{
+				// Updates the rating and comment of the rating that has the user key same as the active user in userID
 				$set: {
 					'ratings.$[elem].rating': rating,
 					'ratings.$[elem].comment': comment,
 				},
 			},
+			// Filters the ratings array to only include the rating that has the user key same as the active user in userID
 			{ arrayFilters: [{ 'elem.user': userID }], new: true }
 		)
 
