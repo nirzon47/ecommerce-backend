@@ -84,9 +84,30 @@ const login = async (req, res) => {
 	}
 }
 
+const logout = async (req, res) => {
+	try {
+		await userModel.findByIdAndUpdate(req.user._id, {
+			$pull: { tokens: req.headers.token.split(' ')[1] },
+		})
+
+		// Upon success, send a success response
+		return res.status(200).json({
+			success: true,
+			message: 'Logout successful',
+		})
+	} catch (err) {
+		// Upon failure, send an error response
+		return res.status(500).json({
+			success: false,
+			message: 'Logout failed',
+			error: err.message,
+		})
+	}
+}
 const usersController = {
 	registration,
 	login,
+	logout,
 }
 
 export default usersController

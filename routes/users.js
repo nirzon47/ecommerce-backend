@@ -1,5 +1,6 @@
 import { Router } from 'express'
 import usersController from '../controllers/users.js'
+import tokenVerification from '../middlewares/tokenVerification.js'
 
 const router = Router()
 
@@ -10,10 +11,10 @@ router.post('/registration', usersController.registration)
 router.post('/login', usersController.login)
 
 // Logout
-router.post('/logout', (req, res) => {
-	res.json({
-		message: 'User logout',
-	})
-})
+router.post(
+	'/logout',
+	tokenVerification(['buyer', 'sellers', 'admin']),
+	usersController.logout
+)
 
 export default router
