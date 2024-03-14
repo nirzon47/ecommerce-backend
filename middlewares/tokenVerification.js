@@ -7,17 +7,43 @@ const tokenVerification = (role) => async (req, res, next) => {
 		const tokenFromHeader = req.headers.token.split(' ')[1]
 		// Decodes the token
 		const token = jwt.decode(tokenFromHeader)
-		// Verifies the token
-		const isVerified = jwt.verify(tokenFromHeader, process.env.JWT_SECRET)
+
 		// Checks if the user is authorized
 		const isAuthorized = role.includes(token.role)
 
 		// Checks if the token is valid from database level
-		const user = await userModel.findById(token._id)
-		const checkFromDB = user.tokens.includes(tokenFromHeader)
+		let user = await userModel.findById(token._id)
+
+		// Makes a new array of tokens that only has valid tokens
+		const refreshedTokens = []
+		// Checks if the token is valid from token level
+		for (const tkn of user.tokens) {
+			if (
+				jwt.verify(tkn, process.env.JWT_SECRET, (err, decoded) => {
+					if (err) {
+						return false
+					}
+
+					return true
+				})
+			) {
+				refreshedTokens.push(tkn)
+			} else {
+				console.log('count')
+			}
+		}
+
+		// Updates the tokens in the database to remove expired tokens
+		user = await userModel.findByIdAndUpdate(
+			user._id,
+			{ $set: { tokens: refreshedTokens } },
+			{ new: true }
+		)
+
+		const isVerified = user.tokens.includes(tokenFromHeader)
 
 		// If the token is invalid, send an error response
-		if (!token || !isVerified || !isAuthorized || !checkFromDB) {
+		if (!token || !isAuthorized || !isVerified) {
 			throw new Error('Forbidden')
 		}
 
