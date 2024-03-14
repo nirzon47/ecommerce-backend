@@ -37,6 +37,9 @@ router.delete(
 	productsController.deleteRating
 )
 
+// Get Ratings
+router.get('/ratings/:pID', productsController.getRatings)
+
 // Like or Dislike
 router.post(
 	'/:pID/:action',
