@@ -60,6 +60,4 @@ const productsSchema = new Schema({
 	ratings: [ratingSchema],
 })
 
-const ProductsModel = model('products', productsSchema)
-
-export default ProductsModel
+export const ProductsModel = model('products', productsSchema)

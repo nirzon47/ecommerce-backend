@@ -1,4 +1,4 @@
-import ProductsModel from '../models/products.js'
+import { ProductsModel } from '../models/products.js'
 
 export const ratingChecker = async (req, res, next) => {
 	try {
