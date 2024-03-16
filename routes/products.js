@@ -9,7 +9,7 @@ const router = Router()
 // Add Product
 router.post(
 	'/',
-	[upload.single('productImage'), tokenVerification(['admin', 'sellers'])],
+	[tokenVerification(['admin', 'sellers']), upload.single('productImage')],
 	productsController.addProduct
 )
 

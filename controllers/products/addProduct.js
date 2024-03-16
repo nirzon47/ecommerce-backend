@@ -4,7 +4,8 @@ import { ProductsModel } from '../../models/products.js'
 export const addProduct = async (req, res) => {
 	try {
 		// Adds the form data and file path to the product object
-		const product = { ...req.body, imagePath: req.file.path }
+		const filePath = req.file?.path || 'uploads/default.svg'
+		const product = { ...req.body, imagePath: filePath }
 
 		// Creates a new product model and saves it to the database
 		const newProduct = new ProductsModel(product)
@@ -20,7 +21,7 @@ export const addProduct = async (req, res) => {
 		// Upon failure, send an error response
 		res.status(500).json({
 			success: false,
-			message: 'Product creation failed',
+			message: error.message || 'Product creation failed',
 			error,
 		})
 	}
