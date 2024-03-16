@@ -1,5 +1,6 @@
 import { userModel } from '../../models/users.js'
 
+// Controller for getting wishlist
 export const getWishlist = async (req, res) => {
 	try {
 		// Get the user ID from the token middleware

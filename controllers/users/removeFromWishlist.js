@@ -1,5 +1,6 @@
 import { userModel } from '../../models/users.js'
 
+// Controller for removing product from wishlist
 export const removeFromWishlist = async (req, res) => {
 	try {
 		// Get the user ID from the token middleware
