@@ -15,17 +15,14 @@ export const addToWishList = async (req, res) => {
 		}
 
 		// Adds the product to the wishlist array
-		const newUser = await userModel.findByIdAndUpdate(
-			userID,
-			{
-				$push: { wishlist: productID },
-			},
-			{ new: true }
-		)
+		await userModel.findByIdAndUpdate(userID, {
+			$push: { wishlist: productID },
+		})
 
+		// Finds the user and populates the wishlist array
 		const wishlist = await userModel
-			.findById(userID)
-			.populate({ path: 'wishlist', select: 'name price' })
+			.findById(userID, { wishlist: 1 })
+			.populate({ path: 'wishlist', select: 'name price imagePath' })
 
 		// Upon success, send a success response
 		res.status(200).json({

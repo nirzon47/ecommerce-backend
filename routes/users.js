@@ -31,4 +31,11 @@ router.patch(
 	usersController.removeFromWishlist
 )
 
+// Get Wishlist
+router.get(
+	'/getWishlist',
+	tokenVerification(['buyer']),
+	usersController.getWishlist
+)
+
 export default router
