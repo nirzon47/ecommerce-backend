@@ -14,6 +14,9 @@ export const removeFromWishlist = async (req, res) => {
 		if (!user.wishlist.includes(productID)) {
 			throw new Error('Product not in wish list')
 		}
+		if (!user.wishlist.length) {
+			throw new Error('Wish list is empty')
+		}
 
 		// Removes the product from the wishlist
 		await userModel.findByIdAndUpdate(userID, {

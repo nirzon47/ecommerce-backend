@@ -19,23 +19,25 @@ router.post(
 
 // Add to Wishlist
 router.post(
-	'/addToWishlist/:pID',
+	'/wishlist/:pID',
 	tokenVerification(['buyer']),
 	usersController.addToWishList
 )
 
 // Remove from Wishlist
 router.patch(
-	'/removeFromWishlist/:pID',
+	'/wishlist/:pID',
 	tokenVerification(['buyer']),
 	usersController.removeFromWishlist
 )
 
 // Get Wishlist
 router.get(
-	'/getWishlist',
+	'/wishlist',
 	tokenVerification(['buyer']),
 	usersController.getWishlist
 )
+
+router.post
 
 export default router

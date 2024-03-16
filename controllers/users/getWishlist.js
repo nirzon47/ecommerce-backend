@@ -17,7 +17,7 @@ export const getWishlist = async (req, res) => {
 		// Upon success, send a success response
 		res.status(200).json({
 			success: true,
-			message: 'Get wish list successful',
+			message: 'Data retrieved successfully',
 			wishlist: wishlist.wishlist,
 		})
 	} catch (err) {
