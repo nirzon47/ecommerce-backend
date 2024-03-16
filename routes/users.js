@@ -38,6 +38,13 @@ router.get(
 	usersController.getWishlist
 )
 
+// Add Address
+router.post(
+	'/address',
+	tokenVerification(['buyer']),
+	usersController.addAddress
+)
+
 router.post
 
 export default router
