@@ -24,4 +24,11 @@ router.post(
 	usersController.addToWishList
 )
 
+// Remove from Wishlist
+router.patch(
+	'/removeFromWishlist/:pID',
+	tokenVerification(['buyer']),
+	usersController.removeFromWishlist
+)
+
 export default router
