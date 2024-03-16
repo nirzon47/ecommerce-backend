@@ -17,4 +17,11 @@ router.post(
 	usersController.logout
 )
 
+// Add to Wishlist
+router.post(
+	'/addToWishlist/:pID',
+	tokenVerification(['buyer']),
+	usersController.addToWishList
+)
+
 export default router

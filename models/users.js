@@ -28,6 +28,11 @@ const userSchema = new Schema({
 		type: Array,
 		default: [],
 	},
+	wishlist: {
+		type: [Schema.Types.ObjectId],
+		default: [],
+		ref: 'products',
+	},
 })
 
 // Middleware that hashes the password before saving
