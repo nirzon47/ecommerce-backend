@@ -5,6 +5,7 @@ import { addToWishList } from './users/addToWishList.js'
 import { removeFromWishlist } from './users/removeFromWishlist.js'
 import { getWishlist } from './users/getWishlist.js'
 import { addAddress } from './users/addAddress.js'
+import { editAddress } from './users/editAddress.js'
 
 const usersController = {
 	registration,
@@ -14,6 +15,7 @@ const usersController = {
 	removeFromWishlist,
 	getWishlist,
 	addAddress,
+	editAddress,
 }
 
 export default usersController

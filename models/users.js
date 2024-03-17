@@ -36,32 +36,23 @@ const userSchema = new Schema({
 	address: {
 		street: {
 			type: String,
-			required: true,
 		},
 		city: {
 			type: String,
-			required: true,
 		},
 		district: {
 			type: String,
-			required: true,
 		},
 		state: {
 			type: String,
-			required: true,
 		},
 		zip: {
 			type: Number,
-			required: true,
 		},
 		country: {
 			type: String,
-			required: true,
 		},
-		default: {
-			type: Boolean,
-			default: false,
-		},
+		default: Object,
 	},
 })
 

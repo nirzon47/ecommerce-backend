@@ -45,6 +45,13 @@ router.post(
 	usersController.addAddress
 )
 
+// Edit Address
+router.patch(
+	'/address',
+	tokenVerification(['buyer']),
+	usersController.editAddress
+)
+
 router.post
 
 export default router
