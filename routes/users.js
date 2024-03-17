@@ -52,6 +52,9 @@ router.patch(
 	usersController.editAddress
 )
 
+// Get Address
+router.get('/address', tokenVerification(['buyer']), usersController.getAddress)
+
 router.post
 
 export default router
