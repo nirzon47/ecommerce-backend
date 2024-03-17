@@ -59,6 +59,10 @@ const productsSchema = new Schema(
 			ref: 'users',
 		},
 		ratings: [ratingSchema],
+		variants: {
+			type: [String],
+			default: ['Default'],
+		},
 	},
 	{
 		timestamps: true,

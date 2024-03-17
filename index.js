@@ -4,7 +4,8 @@ import cors from 'cors'
 import morgan from 'morgan'
 import dotenv from 'dotenv'
 import userRoutes from './routes/users.js'
-import ProductRoutes from './routes/products.js'
+import productRoutes from './routes/products.js'
+import cartRoutes from './routes/cart.js'
 
 const PORT = process.env.PORT || 5000
 
@@ -30,7 +31,8 @@ app.use(morgan(':method | Endpoint - :url | :date[web] | :response-time ms')) //
 
 // Routes
 app.use('/api/v1/users', userRoutes)
-app.use('/api/v1/products', ProductRoutes)
+app.use('/api/v1/products', productRoutes)
+app.use('/api/v1/cart', cartRoutes)
 
 // Express server starting
 app.listen(PORT, () => {
