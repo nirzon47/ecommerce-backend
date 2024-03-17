@@ -9,6 +9,18 @@ export const addAddress = async (req, res) => {
 		// Destructure the address from the request body
 		const address = { ...req.body }
 
+		// If there are address fields missing, throw an error
+		if (
+			address.street === undefined ||
+			address.city === undefined ||
+			address.district === undefined ||
+			address.state === undefined ||
+			address.country === undefined ||
+			address.zip === undefined
+		) {
+			throw new Error('Add all address fields')
+		}
+
 		// Updates the user with the new address
 		const updatedUser = await userModel.findByIdAndUpdate(
 			userID,

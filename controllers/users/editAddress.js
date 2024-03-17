@@ -20,7 +20,7 @@ export const editAddress = async (req, res) => {
 		const user = await userModel.findById(userID)
 
 		// TODO: Refactor
-		if (JSON.stringify({}) === JSON.stringify(user.address)) {
+		if ('{}' === JSON.stringify(user.address)) {
 			throw new Error('No address, add address to patch')
 		}
 
