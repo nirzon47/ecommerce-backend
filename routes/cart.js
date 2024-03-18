@@ -10,4 +10,11 @@ router.post('/', tokenVerification(['buyer']), cartController.addToCart)
 // Remove from cart
 router.patch('/', tokenVerification(['buyer']), cartController.removeFromCart)
 
+// Change quantity
+router.patch(
+	'/quantity',
+	tokenVerification(['buyer']),
+	cartController.changeQuantity
+)
+
 export default router
