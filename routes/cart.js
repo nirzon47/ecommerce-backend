@@ -17,4 +17,7 @@ router.patch(
 	cartController.changeQuantity
 )
 
+// Get cart
+router.get('/', tokenVerification(['buyer']), cartController.getCart)
+
 export default router
