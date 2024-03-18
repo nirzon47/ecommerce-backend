@@ -34,7 +34,7 @@ export const changeQuantity = async (req, res) => {
 			cart._id,
 			{
 				$set: {
-					[`products.[${productExists}].quantity`]: quantity,
+					[`products.${productExists}.quantity`]: quantity,
 				},
 			},
 			{ new: true }
