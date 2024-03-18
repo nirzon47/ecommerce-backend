@@ -1,6 +1,9 @@
 import { userModel } from '../models/users.js'
 import jwt from 'jsonwebtoken'
 
+import dotenv from 'dotenv'
+dotenv.config()
+
 const tokenVerification = (role) => async (req, res, next) => {
 	try {
 		// Token from header comes in the format of 'Bearer <token>'
