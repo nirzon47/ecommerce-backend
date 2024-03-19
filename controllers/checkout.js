@@ -1,4 +1,5 @@
 import { cartModel } from '../models/cart.js'
+import { userModel } from '../models/users.js'
 import dayjs from 'dayjs'
 import orderHistoryModel from '../models/orders.js'
 
@@ -8,11 +9,24 @@ export const checkout = async (req, res) => {
 		// Gets the user ID from the middleware
 		const userID = req.user._id
 
+		// Checks if the user has an address
+		const user = await userModel.findById(userID, { address: 1 })
+
+		// If the user has no address, send an error response
+		if ('{}' === JSON.stringify(user.address)) {
+			throw new Error('No address')
+		}
+
 		// Gets the cart of the user and populates the item and user fields
 		const cart = await cartModel.findOne({ user: userID }).populate({
 			path: 'products.item',
 			select: 'name price',
 		})
+
+		// If the cart is empty, send an error response
+		if (cart.products.length === 0) {
+			throw new Error('Cart is empty')
+		}
 
 		// Calculates the total price of the cart
 		const total = cart.products.reduce(
