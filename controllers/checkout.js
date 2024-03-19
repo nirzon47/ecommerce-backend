@@ -58,6 +58,8 @@ export const checkout = async (req, res) => {
 		// Deletes the cart
 		await cartModel.findByIdAndDelete(cart._id)
 
+		// TODO: Process cart depending on the payment && email (optional)
+
 		// Upon success, send a success response
 		res.status(200).json({
 			success: true,
