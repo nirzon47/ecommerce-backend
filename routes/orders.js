@@ -1,10 +1,10 @@
 import { Router } from 'express'
+import { getOrders } from '../controllers/orders.js'
 import tokenVerification from '../middlewares/tokenVerification.js'
-import { checkout } from '../controllers/checkout.js'
 
 const router = Router()
 
-// Checkout
-router.post('/', tokenVerification(['buyer']), checkout)
+// Get Orders
+router.get('/', tokenVerification(['buyer']), getOrders)
 
 export default router

@@ -7,6 +7,7 @@ import userRoutes from './routes/users.js'
 import productRoutes from './routes/products.js'
 import cartRoutes from './routes/cart.js'
 import checkoutRoutes from './routes/checkout.js'
+import orderRoutes from './routes/orders.js'
 
 const PORT = process.env.PORT || 5000
 
@@ -35,6 +36,7 @@ app.use('/api/v1/users', userRoutes)
 app.use('/api/v1/products', productRoutes)
 app.use('/api/v1/cart', cartRoutes)
 app.use('/api/v1/checkout', checkoutRoutes)
+app.use('/api/v1/orders', orderRoutes)
 
 // Express server starting
 app.listen(PORT, () => {

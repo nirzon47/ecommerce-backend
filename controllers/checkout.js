@@ -2,6 +2,7 @@ import { cartModel } from '../models/cart.js'
 import dayjs from 'dayjs'
 import orderHistoryModel from '../models/orders.js'
 
+// Controller for placing an order
 export const checkout = async (req, res) => {
 	try {
 		// Gets the user ID from the middleware
