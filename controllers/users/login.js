@@ -24,7 +24,7 @@ export const login = async (req, res) => {
 				email: user.email,
 				role: user.role,
 				// TODO: Update the expiration time
-				exp: Math.floor((Date.now() + 1000 * 60 * 30) / 1000),
+				exp: Math.floor((Date.now() + 1000 * 60 * 60 * 2) / 1000),
 			}
 
 			// Create a JWT token

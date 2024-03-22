@@ -2,6 +2,12 @@ import { cartModel } from '../models/cart.js'
 import { userModel } from '../models/users.js'
 import dayjs from 'dayjs'
 import orderHistoryModel from '../models/orders.js'
+import Razorpay from 'razorpay'
+
+const instance = new Razorpay({
+	key_id: 'RAZORPAY_KEY_ID',
+	key_secret: 'RAZORPAY_KEY_SECRET',
+})
 
 // Controller for placing an order
 export const checkout = async (req, res) => {
