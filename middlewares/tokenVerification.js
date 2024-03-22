@@ -7,7 +7,6 @@ dotenv.config()
 const tokenVerification = (role) => async (req, res, next) => {
 	try {
 		// Token from header comes in the format of 'Bearer <token>'
-		console.log(req.headers)
 		const tokenFromHeader = req.headers.authorization.split(' ')[1]
 		// Decodes the token
 		const token = jwt.decode(tokenFromHeader)

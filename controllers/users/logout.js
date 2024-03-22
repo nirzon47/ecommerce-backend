@@ -5,7 +5,7 @@ export const logout = async (req, res) => {
 	try {
 		// Remove the token from the user in the database
 		await userModel.findByIdAndUpdate(req.user._id, {
-			$pull: { tokens: req.headers.token.split(' ')[1] },
+			$pull: { tokens: req.headers.authorization.split(' ')[1] },
 		})
 
 		// Upon success, send a success response
