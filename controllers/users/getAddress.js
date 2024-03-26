@@ -10,10 +10,12 @@ export const getAddress = async (req, res) => {
 		const user = await userModel.findById(userID, {
 			address: 1,
 		})
-
 		// If the user has no address, send an error response
-		if ('{}' === JSON.stringify(user.address)) {
-			throw new Error('No address')
+		if (!user.address.city) {
+			return res.status(200).json({
+				success: false,
+				message: 'No address found',
+			})
 		}
 
 		// Upon success, send a success response

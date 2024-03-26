@@ -24,7 +24,7 @@ export const getOrders = async (req, res) => {
 		res.status(200).json({
 			success: true,
 			message: 'Orders fetched successfully',
-			orders,
+			data: orders,
 		})
 	} catch (err) {
 		// Upon failure, send an error response

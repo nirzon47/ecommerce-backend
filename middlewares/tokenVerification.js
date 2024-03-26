@@ -31,8 +31,6 @@ const tokenVerification = (role) => async (req, res, next) => {
 				})
 			) {
 				refreshedTokens.push(tkn)
-			} else {
-				console.log('count')
 			}
 		}
 

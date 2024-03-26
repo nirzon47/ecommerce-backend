@@ -8,6 +8,9 @@ import productRoutes from './routes/products.js'
 import cartRoutes from './routes/cart.js'
 import checkoutRoutes from './routes/checkout.js'
 import orderRoutes from './routes/orders.js'
+import { join } from 'path'
+import { fileURLToPath } from 'url'
+const __dirname = fileURLToPath(new URL('.', import.meta.url))
 
 const PORT = process.env.PORT || 5000
 
@@ -30,6 +33,8 @@ const app = express()
 app.use(cors()) // Cross-Origin Resource Sharing
 app.use(express.json())
 app.use(morgan(':method | Endpoint - :url | :date[web] | :response-time ms')) // Logging
+
+app.use('/uploads', express.static(join(__dirname, 'uploads'))) // Serve static files
 
 // Routes
 app.use('/api/v1/users', userRoutes)

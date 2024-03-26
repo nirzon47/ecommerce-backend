@@ -42,14 +42,14 @@ export const checkout = async (req, res) => {
 
 		// Generates a random delivery date
 		const randomNumber = Math.floor(Math.random() * 7)
-		const deliveryDate = dayjs().add(randomNumber, 'days')
+		const deliveryDate = dayjs().add(randomNumber, 'days').valueOf()
 
 		// Creates the order
 		const order = {
 			cart,
 			total,
-			date: dayjs().format('DD-MM-YYYY HH:mm:ss'),
-			deliveryDate: deliveryDate.format('DD-MM-YYYY HH:mm:ss'),
+			date: Date.now(),
+			deliveryDate: deliveryDate,
 			coupon: req.body.coupon || null,
 			orderStatus: 'Placed',
 			paymentMode: req.body.paymentMode || 'COD',

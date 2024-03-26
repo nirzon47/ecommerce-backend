@@ -20,7 +20,7 @@ export const login = async (req, res) => {
 			// Create a payload for JWT
 			const payload = {
 				_id: user._id,
-				name: user.name,
+				name: user.firstName + ' ' + user.lastName,
 				email: user.email,
 				role: user.role,
 				// TODO: Update the expiration time

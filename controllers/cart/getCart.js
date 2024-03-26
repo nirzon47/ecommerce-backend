@@ -11,6 +11,13 @@ export const getCart = async (req, res) => {
 			},
 			{ path: 'user', select: 'firstName lastName' },
 		])
+		console.log(cart)
+		if (!cart) {
+			return res.status(200).json({
+				success: false,
+				message: 'Cart is empty',
+			})
+		}
 
 		const total = cart.products.reduce(
 			(sum, item) => sum + item.quantity * item.item.price,
