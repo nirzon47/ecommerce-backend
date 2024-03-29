@@ -3,12 +3,15 @@ import mongoose from 'mongoose'
 import cors from 'cors'
 import morgan from 'morgan'
 import dotenv from 'dotenv'
+
 import userRoutes from './routes/users.js'
 import productRoutes from './routes/products.js'
 import cartRoutes from './routes/cart.js'
 import checkoutRoutes from './routes/checkout.js'
 import orderRoutes from './routes/orders.js'
 import blogRoutes from './routes/blog.js'
+import categoryRoutes from './routes/category.js'
+
 import { join } from 'path'
 import { fileURLToPath } from 'url'
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
@@ -44,6 +47,7 @@ app.use('/api/v1/cart', cartRoutes)
 app.use('/api/v1/checkout', checkoutRoutes)
 app.use('/api/v1/orders', orderRoutes)
 app.use('/api/v1/blog', blogRoutes)
+app.use('/api/v1/category', categoryRoutes)
 
 // Express server starting
 app.listen(PORT, () => {
