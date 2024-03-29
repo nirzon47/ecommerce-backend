@@ -13,4 +13,11 @@ router.patch('/', tokenVerification(['admin']), categoryController.editCategory)
 // Get Categories
 router.get('/', categoryController.getCategories)
 
+// Delete Category
+router.delete(
+	'/',
+	tokenVerification(['admin']),
+	categoryController.deleteCategory
+)
+
 export default router
