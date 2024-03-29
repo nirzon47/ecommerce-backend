@@ -3,10 +3,14 @@ import { userModel } from '../models/users.js'
 import dayjs from 'dayjs'
 import orderHistoryModel from '../models/orders.js'
 import Razorpay from 'razorpay'
+import dotenv from 'dotenv'
+import { v4 as uuid } from 'uuid'
 
-const instance = new Razorpay({
-	key_id: 'RAZORPAY_KEY_ID',
-	key_secret: 'RAZORPAY_KEY_SECRET',
+dotenv.config()
+
+const razorpay = new Razorpay({
+	key_id: process.env.RAZORPAY_KEY_ID,
+	key_secret: process.env.RAZORPAY_KEY_SECRET,
 })
 
 // Controller for placing an order
@@ -14,6 +18,7 @@ export const checkout = async (req, res) => {
 	try {
 		// Gets the user ID from the middleware
 		const userID = req.user._id
+		const paymentMode = req.body.paymentMode
 
 		// Checks if the user has an address
 		const user = await userModel.findById(userID, { address: 1 })
@@ -44,6 +49,22 @@ export const checkout = async (req, res) => {
 		const randomNumber = Math.floor(Math.random() * 7)
 		const deliveryDate = dayjs().add(randomNumber, 'days').valueOf()
 
+		const options = {
+			amount: total * 100,
+			currency: 'INR',
+			receipt: uuid(),
+			payment_capture: 1,
+		}
+
+		let RPOrder
+		if (paymentMode === 'online') {
+			try {
+				RPOrder = await razorpay.orders.create(options)
+			} catch (error) {
+				throw new Error(error)
+			}
+		}
+
 		// Creates the order
 		const order = {
 			cart,
@@ -52,8 +73,10 @@ export const checkout = async (req, res) => {
 			deliveryDate: deliveryDate,
 			coupon: req.body.coupon || null,
 			orderStatus: 'Placed',
-			paymentMode: req.body.paymentMode || 'COD',
+			paymentMode: paymentMode,
 			transactionID: null,
+			paymentStatus: paymentMode === 'cod' ? 'Paid' : 'Pending',
+			RPOrder: paymentMode === 'cod' ? null : RPOrder,
 		}
 
 		// Gets the order history collection that matches the userID
