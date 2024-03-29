@@ -7,4 +7,7 @@ const router = Router()
 // Add Blog
 router.post('/', tokenVerification(['admin']), blogController.addBlog)
 
+// Edit Blog
+router.patch('/:bID', tokenVerification(['admin']), blogController.editBlog)
+
 export default router
