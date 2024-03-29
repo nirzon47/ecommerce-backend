@@ -10,4 +10,7 @@ router.post('/', tokenVerification(['admin']), categoryController.addCategory)
 // Edit Category
 router.patch('/', tokenVerification(['admin']), categoryController.editCategory)
 
+// Get Categories
+router.get('/', categoryController.getCategories)
+
 export default router

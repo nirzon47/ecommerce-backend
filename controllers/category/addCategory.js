@@ -50,7 +50,7 @@ export const addCategory = async (req, res) => {
 		res.status(200).json({
 			success: true,
 			message: 'Category added successfully',
-			category: updatedCategory,
+			category: updatedCategory.categories,
 		})
 	} catch (error) {
 		// Upon failure, send an error response
