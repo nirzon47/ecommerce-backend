@@ -10,4 +10,7 @@ router.post('/', tokenVerification(['admin']), blogController.addBlog)
 // Edit Blog
 router.patch('/:bID', tokenVerification(['admin']), blogController.editBlog)
 
+// Get Blogs
+router.get('/', blogController.getBlogs)
+
 export default router
