@@ -7,4 +7,7 @@ const router = Router()
 // Add Category
 router.post('/', tokenVerification(['admin']), categoryController.addCategory)
 
+// Edit Category
+router.patch('/', tokenVerification(['admin']), categoryController.editCategory)
+
 export default router
