@@ -13,4 +13,7 @@ router.patch('/:bID', tokenVerification(['admin']), blogController.editBlog)
 // Get Blogs
 router.get('/', blogController.getBlogs)
 
+// Delete Blog
+router.delete('/:bID', tokenVerification(['admin']), blogController.deleteBlog)
+
 export default router
