@@ -8,6 +8,7 @@ import productRoutes from './routes/products.js'
 import cartRoutes from './routes/cart.js'
 import checkoutRoutes from './routes/checkout.js'
 import orderRoutes from './routes/orders.js'
+import blogRoutes from './routes/blog.js'
 import { join } from 'path'
 import { fileURLToPath } from 'url'
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
@@ -42,6 +43,7 @@ app.use('/api/v1/products', productRoutes)
 app.use('/api/v1/cart', cartRoutes)
 app.use('/api/v1/checkout', checkoutRoutes)
 app.use('/api/v1/orders', orderRoutes)
+app.use('/api/v1/blog', blogRoutes)
 
 // Express server starting
 app.listen(PORT, () => {
