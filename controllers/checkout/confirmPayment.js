@@ -6,11 +6,13 @@ export const confirmPayment = async (req, res) => {
 		// Gets the order ID from the request body
 		const orderID = req.body.orderID
 
+		// Finds the appropriate order and updates its payment status
 		const updatedOrder = await orderHistoryModel.findOneAndUpdate(
 			{ 'orders.cart._id': orderID },
 			{ $set: { 'orders.$.paymentStatus': 'Paid' } }
 		)
 
+		// Upon success, send a success response
 		res.json({
 			success: true,
 			message: 'Payment successful',
