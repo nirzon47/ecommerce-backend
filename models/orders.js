@@ -35,7 +35,7 @@ const orderHistorySchema = new Schema({
 				type: String,
 				default: null,
 			},
-			orderStatus: {
+			paymentStatus: {
 				type: String,
 				required: true,
 			},
@@ -43,8 +43,8 @@ const orderHistorySchema = new Schema({
 				type: String,
 				required: true,
 			},
-			transactionID: {
-				type: String,
+			RPOrder: {
+				type: Object,
 				default: null,
 			},
 		},
