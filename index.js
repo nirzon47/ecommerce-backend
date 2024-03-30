@@ -13,6 +13,7 @@ import blogRoutes from './routes/blog.js'
 import categoryRoutes from './routes/category.js'
 import couponRoutes from './routes/coupon.js'
 import brandRoutes from './routes/brand.js'
+import forgotRoutes from './routes/forgot.js'
 
 import { join } from 'path'
 import { fileURLToPath } from 'url'
@@ -52,6 +53,7 @@ app.use('/api/v1/blog', blogRoutes)
 app.use('/api/v1/category', categoryRoutes)
 app.use('/api/v1/coupon', couponRoutes)
 app.use('/api/v1/brand', brandRoutes)
+app.use('/api/v1/forgot', forgotRoutes)
 
 // Express server starting
 app.listen(PORT, () => {
