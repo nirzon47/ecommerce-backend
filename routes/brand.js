@@ -17,4 +17,7 @@ router.delete(
 	brandController.deleteBrand
 )
 
+// Get Brands
+router.get('/', brandController.getBrands)
+
 export default router
