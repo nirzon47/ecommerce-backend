@@ -5,6 +5,7 @@ import orderHistoryModel from '../../models/orders.js'
 import Razorpay from 'razorpay'
 import dotenv from 'dotenv'
 import { v4 as uuid } from 'uuid'
+import { couponModel } from '../../models/coupon.js'
 
 dotenv.config()
 
@@ -19,6 +20,7 @@ export const checkoutCart = async (req, res) => {
 		// Gets the user ID from the middleware
 		const userID = req.user._id
 		const paymentMode = req.body.paymentMode
+		const coupon = req.body.coupon
 
 		// Checks if the user has an address
 		const user = await userModel.findById(userID, { address: 1 })
@@ -40,15 +42,31 @@ export const checkoutCart = async (req, res) => {
 		}
 
 		// Calculates the total price of the cart
-		const total = cart.products.reduce(
+		let total = cart.products.reduce(
 			(sum, cartItem) => sum + cartItem.quantity * cartItem.item.price,
 			0
 		)
+
+		// If a coupon is provided, calculate the discount
+		if (coupon) {
+			// Gets the coupon from the database
+			const couponData = await couponModel
+				.findOne({ code: coupon })
+				.populate({
+					path: 'coupons',
+				})
+
+			const discount = couponData.discount
+			const discountAmount = (total * discount) / 100
+
+			total = total - Math.min(discountAmount, couponData.limit)
+		}
 
 		// Generates a random delivery date
 		const randomNumber = Math.floor(Math.random() * 7)
 		const deliveryDate = dayjs().add(randomNumber, 'days').valueOf()
 
+		// Razorpay options
 		const options = {
 			amount: total * 100,
 			currency: 'INR',
@@ -56,6 +74,7 @@ export const checkoutCart = async (req, res) => {
 			payment_capture: 1,
 		}
 
+		// Razorpay order
 		let RPOrder
 		if (paymentMode === 'online') {
 			try {
@@ -99,9 +118,7 @@ export const checkoutCart = async (req, res) => {
 		}
 
 		// Deletes the cart
-		// await cartModel.findByIdAndDelete(cart._id)
-
-		// TODO: Process cart depending on the payment && email (optional)
+		await cartModel.findByIdAndDelete(cart._id)
 
 		// Upon success, send a success response
 		res.status(200).json({

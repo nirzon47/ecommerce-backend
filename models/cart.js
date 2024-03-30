@@ -13,6 +13,11 @@ const cartSchema = new Schema({
 			variant: { type: String, required: true, default: 'Default' },
 		},
 	],
+	coupon: {
+		type: Schema.Types.ObjectId,
+		ref: 'coupons',
+		default: null,
+	},
 })
 
 export const cartModel = model('cart', cartSchema)
