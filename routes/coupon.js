@@ -13,4 +13,11 @@ router.patch('/:cID', tokenVerification(['admin']), couponController.editCoupon)
 // Get Coupons
 router.get('/', couponController.getCoupons)
 
+// Delete Coupon
+router.delete(
+	'/:cID',
+	tokenVerification(['admin']),
+	couponController.deleteCoupon
+)
+
 export default router
