@@ -7,4 +7,7 @@ const router = Router()
 // Add Brand
 router.post('/', tokenVerification(['admin']), brandController.createBrand)
 
+// Edit Brand
+router.patch('/:bID', tokenVerification(['admin']), brandController.editBrand)
+
 export default router
