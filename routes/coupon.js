@@ -10,4 +10,7 @@ router.post('/', tokenVerification(['admin']), couponController.createCoupon)
 // Edit Coupon
 router.patch('/:cID', tokenVerification(['admin']), couponController.editCoupon)
 
+// Get Coupons
+router.get('/', couponController.getCoupons)
+
 export default router
