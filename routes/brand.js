@@ -10,4 +10,11 @@ router.post('/', tokenVerification(['admin']), brandController.createBrand)
 // Edit Brand
 router.patch('/:bID', tokenVerification(['admin']), brandController.editBrand)
 
+// Delete Brand
+router.delete(
+	'/:bID',
+	tokenVerification(['admin']),
+	brandController.deleteBrand
+)
+
 export default router
