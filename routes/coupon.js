@@ -7,4 +7,7 @@ const router = Router()
 // Create Coupon
 router.post('/', tokenVerification(['admin']), couponController.createCoupon)
 
+// Edit Coupon
+router.patch('/:cID', tokenVerification(['admin']), couponController.editCoupon)
+
 export default router
